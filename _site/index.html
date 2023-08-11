@@ -26,12 +26,10 @@
 
 
 <!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>UnTrustZone | Systematic Accelerated Aging to Expose On-chip Secrets</title>
+<title>UnTrustZone</title>
 <meta name="generator" content="Jekyll v4.3.2" />
 <meta property="og:title" content="UnTrustZone" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Systematic Accelerated Aging to Expose On-chip Secrets" />
-<meta property="og:description" content="Systematic Accelerated Aging to Expose On-chip Secrets" />
 <link rel="canonical" href="http://localhost:4000/" />
 <meta property="og:url" content="http://localhost:4000/" />
 <meta property="og:site_name" content="UnTrustZone" />
@@ -39,7 +37,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="UnTrustZone" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","description":"Systematic Accelerated Aging to Expose On-chip Secrets","headline":"UnTrustZone","name":"UnTrustZone","url":"http://localhost:4000/"}</script>
+{"@context":"https://schema.org","@type":"WebSite","headline":"UnTrustZone","name":"UnTrustZone","url":"http://localhost:4000/"}</script>
 <!-- End Jekyll SEO tag -->
 
   </head>
@@ -51,7 +49,7 @@
         <a id="a-title" href="/">
           <h1>UnTrustZone</h1>
         </a>
-        <h2>Systematic Accelerated Aging to Expose On-chip Secrets</h2>
+        <h2></h2>
 
         <section id="downloads">
           
@@ -67,23 +65,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/styles.css"> <!-- Link to the external CSS file -->
 </head>
 
 
 <body>
 
     <main>
-      <h3> Introduction [Work in progress]</h3>  
-      At a high-leve, UntrustZone is a sophisticated attack that unveils on-chip secrets stored within Static Random-Access Memory (SRAM) by exploiting the long-term data remanence effect. This method illustrates how an adversary can meticulously read data from a secure memory area, even when hardware-backed security enclaves, such as TrustZone, are rigorously enforced. By revealing the vulnerability in contemporary security measures, UntrustZone underscores the need for more robust defenses against potential physical breaches.
-    </main>
+      <h2>General Overview</h2>
+        
+        <div class="background-image">
+          
+        <p style="color: rgb(240, 127, 127);">  
+          
+          <b> 
+          At a high level, UntrustZone unveils an attack on secrets stored in on-chip (e.g., cache) Static Random-Access Memory (SRAM) by exploiting the long-term data remanence effect. 
+          The attack illustrates how an adversary can electrically reach the SRAM, rapidly imprint data in the analog domain,  
+          and read it out from a secure memory area, even when hardware-backed security enclaves, such as TrustZone, are enforced during execution. 
+          Our findings demonstrate that relying solely on fully on-chip execution to prevent off-chip memory attacks (e.g., cold boot or NVM probing), even with the backing of hardware-enforced security isolation, is inadequate to defend against the proposed attack.
+          By revealing the vulnerability in contemporary security measures under our threat model, UntrustZone underscores the need for more robust defenses against these types of potential physical attacks.
+        </b>
+          
+          <p>The paper <b>"UnTrustZone: Systematic Accelerated Aging to Expose On-chip Secrets,"</b> by Jubayer Mahmod and Matthew Hicks, is scheduled to appear in IEEE Security and Privacy'24.
+          <br><a href="./docs/paper.pdf" download> <img src="./assets/images/pdf.png" style="width: 30px;"> </a>   <a href="./docs/paper.ppt" download> <img src="./assets/images/ppt.png" style="width: 30px;"> </a> 
+          <a href="./docs/paper.ppt" download> <img src="./assets/images/promo.png" style="width: 30px;"> </a> [will be uploaded soon]
+
+                
+        </p>
+      </div>
+       
+<h2>High-level approach</h2>
+<p>
+
+  Our attack's threat model considers an attacker with physical access to a device containing on-chip secrets protected by specific countermeasures (such as TrustZone) against standard hardware and software-level attacks. 
+  We develop threat models tailored to both the target information and the specific System-on-Chip (SoC), representing various unique attack scenarios, all aligning with the broad threat model.
+  
+  We observe that even complex SoCs allow access to uncontaminated SRAM power-on state and core voltage pins. An attacker can take advantage of these aspects to cause aging in SRAM and directly gain access to the secure data. 
+  This finding guides us to create the UntrustZone attack, where the accuracy of secret retrieval is influenced by the acceleration of the aging process, specifically through voltage and temperature.
+  
+</p>
+
+<p>
+  The attack starts by locating the appropriate voltage pin(s) and corresponding off-chip power delivery components, then measuring the standard voltage at these pin(s). 
+  With the attack parameters determined through experiments and guided by the publicly available device datasheet, we subject the target device to stress conditions. During the 'burn-in' effect on the victim device, secrets are embedded into the SRAM's analog domain, allowing the revelation of secrets via the power-on state of SRAM.
+  To highlight the potential risk of long-term data remanence, we carry out the attack on more than a dozen commercial devices, ranging from single-cycle microcontrollers to full-scale processors.
+  
+</p>
+
+<div class="container">
+  <div class="text-content">
+      <h3>Cryptographic key extraction from TrustZone</h3>
+      <p> In our first demo, we show how UntrustZone can reveal a cryptographic key from a system that relies entirely on on-chip computation secured by TrustZone. 
+        Utilizing a widely-used microcontroller, SAML11, known for its security features, the victim application employs on-chip crypto and hardware crypto accelerators to safeguard a "plaintext". 
+        Despite these security measures, we successfully obtain the key with an accuracy of <b> 97.2% </b> without any post-attack cryptanalysis.
+
+      </p>
+  </div>
+  <div class="image-content">
+      <img src="./assets/images/map (1)1024_1.jpg" alt="Your Image"> 
+  </div>
+</div>
 
 
 
+<div class="container">
+  <div class="image-content">
+    <img src="./assets/images/Fimrware_ext1024_1.png" alt="Your Image"> 
+</div>
+  <div class="text-content">
+      <h3>Firmware extraction</h3>
+      <p> Our second demo targets proprietary firmware designed to resist off-chip cloning with TrustZone backing.
+        Even though the CPU performs the computations entirely on-chip, UntrustZone manages to uncover this firmware's instructions and run-time data from the SRAM, achieving up to 95.82% accuracy.
+        
+ </div>
 
+</div>
+
+
+<div class="container">
+  <div class="text-content">
+      <h3>Stealing Secrets from Cache</h3>
+      <p> 
+
+        In the third scenario, we broaden the attack to target more intricate System-on-Chips (Cortex-A53 and Cortex-A72 from Broadcom) that utilize private caches for nonvolatile secret storage. 
+        We extract secrets from the caches of both a Cortex-A53 and Cortex-A72 processor, achieving an accuracy of 79% and 93%, respectively.
+        
+</div>
+  <div class="image-content">
+      <img src="./assets/images/cortexa72.jpg" alt="Your Image"> 
+  </div>
+</div>
+</main>
+
+<h2>Questions?</h2>
+<p> Please contact: jubayer@vt.edu</p>
 
 
     <footer>
-        <p>&copy; 2023 Forte-Research</p>
+        <p>&copy; 2023 FoRTE Research Group || Computer Science || Virginia Tech</p>
     </footer>
 </body>
 </html>

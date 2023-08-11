@@ -1,0 +1,47 @@
+/* .background-image {
+    background-image: url('../images/_0684553d-024c-4c18-829d-d597bf7eb850.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 10vh;
+    color: white;
+    text-align: center;
+    padding: 50px;
+} */
+
+.background-image {
+    position: relative; /* Set the position to relative */
+    height: 20vh;
+    color: rgb(247, 247, 247);
+    text-align: center;
+    padding: 30px;
+
+}
+
+.background-image::before {
+    content: ""; /* Empty content for the pseudo-element */
+    position: absolute; /* Position it absolutely within the container */
+    top: 0; left: 0; right: 0; bottom: 0; /* Cover the entire container */
+    background-image: url('../images/memory.PNG'); /* Path to your image */
+    background-size: cover; /* Cover the entire container */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    opacity: 0.05; /* Set the opacity (0 is fully transparent, 1 is fully opaque) */
+    z-index: -1; /* Place it behind the content */
+}
+
+.container {
+    display: flex;
+    align-items: center;
+}
+.text-content {
+    flex: 1;
+    padding: 20px;
+}
+.image-content {
+    width: 300px;
+}
+img {
+    width: 100%;
+    height: auto;
+}
