@@ -72,9 +72,9 @@
 <body>
 
     <main>
-      <h2>General Overview</h2>
+      <h2>General overview</h2>
         
-        <div class="background-image">
+        
           
         <p style="color: rgb(240, 127, 127);">  
           
@@ -92,12 +92,12 @@
 
                 
         </p>
-      </div>
+      
        
 <h2>High-level approach</h2>
 <p>
 
-  Our attack's threat model considers an attacker with physical access to a device containing on-chip secrets protected by specific countermeasures (such as TrustZone) against standard hardware and software-level attacks. 
+  Our  threat model considers an attacker with physical access to a device containing on-chip secrets protected by specific countermeasures (such as TrustZone) against standard hardware and software-level attacks. 
   We develop threat models tailored to both the target information and the specific System-on-Chip (SoC), representing various unique attack scenarios, all aligning with the broad threat model.
   
   We observe that even complex SoCs allow access to uncontaminated SRAM power-on state and core voltage pins. An attacker can take advantage of these aspects to cause aging in SRAM and directly gain access to the secure data. 
@@ -156,6 +156,20 @@
   </div>
 </div>
 </main>
+
+
+<h2> Disclosure</h2>
+<p>
+  In accordance with the vulnerability disclosure guidelines of Oakland'24, we contacted the manufacturers of the devices against which we validated UntrustZone. 
+</p>
+
+
+<h2> Acknowledgements</h2>
+<p>The project depicted is sponsored by the Defense Advanced Research Projects Agency. The content of the information does  not necessarily reflect the position or the policy of the Government, and no official endorsement should be inferred.
+Approved for public release; distribution is unlimited. </p>
+
+
+
 
 <h2>Questions?</h2>
 <p> Please contact: jubayer@vt.edu</p>
